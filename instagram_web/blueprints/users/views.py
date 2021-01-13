@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, request, url_for
 from werkzeug.security import generate_password_hash
 import re
+from models.user import *
 
 users_blueprint = Blueprint('users',
                             __name__,
@@ -41,7 +42,23 @@ def create():
         valid_count += 1
     else:
         flash("Passwords do not match.")
-
+    if valid_count == 5:
+        hash_password = generate_password_hash(password)
+        user = User(username=username, name=name, email=email, password=hash_password)
+        integrity_count = 0
+        if not User.get_or_none(User.username==username):
+            integrity_count += 1
+        else:
+            flash("Username taken!")
+        if not User.get_or_none(User.email==email):
+            integrity_count += 1
+        else:
+            flash("Email taken!")
+        if integrity_count == 2:
+            if user.save():
+                flash("Registration successful!")
+            else:
+                flash("Registration failed.")
     return redirect(url_for('users.new'))
 
 
