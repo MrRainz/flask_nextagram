@@ -1,2 +1,5 @@
-<a href="{{ url_for('new') }}">Sign Up</a>
+{% extends "_layout.html" %}
+{% block content %}
+<a href="{{ url_for('users.new') }}">Sign Up</a>
 <h1>user list</h1>
+{% endblock %}

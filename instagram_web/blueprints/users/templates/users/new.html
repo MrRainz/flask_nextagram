@@ -1,20 +1,25 @@
+{% extends "_layout.html" %}
+{% block content %}
+<a href="{{ url_for('users.index') }}">Homepage</a>
 <h1>User Sign Up</h1>
-<form action="{{ url_for('create') }}" method="POST">
+<form action="{{ url_for('users.create') }}" method="POST">
     <div class="form-group">
         <label for="username">Username</label>
-        <input type='text' name='username' class="form-control" />
-    </div>
-    <div class="form-group">
+        <input type='text' name='username' placeholder="5-20 characters" class="form-control" />
+
+        <label for="name">Display Name</label>
+        <input type='text' name='name' placeholder="1-50 characters" class="form-control" />
+
         <label for="email">E-mail</label>
-        <input type='text' name='email' class="form-control" />
-    </div>
-    <div class="form-group">
+        <input type='email' name='email' placeholder="example@someservice.com" class="form-control" />
+
         <label for="password">Password</label>
-        <input type='password' name='password' class="form-control" />
-    </div>
-    <div class="form-group">
+        <input type='password' name='password' placeholder="Input password with length 8-20 characters" class="form-control" />
+
         <label for="confirm_password">Confirm Password</label>
-        <input type='password' name='confirm_password' class="form-control" />
+        <input type='password' name='confirm_password' placeholder="Retype password" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
+{% endblock %}
+
