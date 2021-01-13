@@ -4,6 +4,8 @@
 <h1>User Sign Up</h1>
 <form action="{{ url_for('users.create') }}" method="POST">
     <div class="form-group">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        
         <label for="username">Username</label>
         <input type='text' name='username' placeholder="5-20 characters" class="form-control" />
 
