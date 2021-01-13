@@ -11,7 +11,7 @@ def new():
     return render_template('users/new.html')
 
 
-@users_blueprint.route('/', methods=['POST'])
+@users_blueprint.route('/create', methods=['POST'])
 def create():
     pass
 
@@ -23,7 +23,7 @@ def show(username):
 
 @users_blueprint.route('/', methods=["GET"])
 def index():
-    return "USERS"
+    return render_template('users/user_list.html')
 
 
 @users_blueprint.route('/<id>/edit', methods=['GET'])
