@@ -29,6 +29,15 @@
     <a href="{{ url_for('users.sign_in') }}">Sign In</a>
     {% block content %}
     {% endblock %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <ul class=flashes>
+              {% for message in messages %}
+                  <li style="list-style-type: none">{{ message }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
+    {% endwith %}
     <footer>
       Made with &hearts; at <a target="_blank" href="https://www.nextacademy.com/?utm_source=github&utm_medium=student-challenge&utm_campaign=flask-nextagram">NEXT Academy</a>
     </footer>
