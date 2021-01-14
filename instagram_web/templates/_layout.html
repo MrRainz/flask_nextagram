@@ -24,6 +24,9 @@
 
   </head>
   <body>
+    <a href="/">Homepage</a>
+    <a href="{{ url_for('users.sign_up') }}">Sign Up</a>
+    <a href="{{ url_for('users.sign_in') }}">Sign In</a>
     {% block content %}
     {% endblock %}
     <footer>

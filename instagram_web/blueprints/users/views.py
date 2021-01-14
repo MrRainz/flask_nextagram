@@ -13,7 +13,7 @@ def sign_up():
     return render_template('users/sign_up.html')
 
 
-@users_blueprint.route('/create', methods=['POST'])
+@users_blueprint.route('/sign_up', methods=['POST'])
 def create():
     valid_count = 0
     username = request.form['username']
@@ -62,8 +62,13 @@ def create():
     return redirect(url_for('users.sign_up'))
 
 
-@users_blueprint.route('/sign_in', methods["GET"])
+@users_blueprint.route('/sign_in', methods=["GET"])
 def sign_in():
+    return render_template('users/sign_in.html')
+
+
+@users_blueprint.route('/sign_in', methods=["POST"])
+def login():
     pass
 
 
