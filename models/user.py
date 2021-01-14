@@ -13,11 +13,11 @@ class User(BaseModel, UserMixin):
     confirm_password = None
 
     def validate(self):
-        existing_user_username = User.get_or_none(User.username == self.username)
+        existing_user_username = User.get_or_none(User.username ** self.username)
         if existing_user_username:
             self.errors.append(f"{self.username} already taken!")
         
-        existing_user_email = User.get_or_none(User.email == self.email)
+        existing_user_email = User.get_or_none(User.email ** self.email)
         if existing_user_email:
             self.errors.append(f"{self.email} already taken!")
         
