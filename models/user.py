@@ -8,3 +8,5 @@ class User(BaseModel):
     email = pw.CharField(unique=True)
     password = pw.CharField(unique=False)
 
+    
+

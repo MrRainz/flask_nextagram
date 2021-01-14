@@ -8,9 +8,9 @@ users_blueprint = Blueprint('users',
                             template_folder='templates')
 
 
-@users_blueprint.route('/new', methods=['GET'])
-def new():
-    return render_template('users/new.html')
+@users_blueprint.route('/sign_up', methods=['GET'])
+def sign_up():
+    return render_template('users/sign_up.html')
 
 
 @users_blueprint.route('/create', methods=['POST'])
@@ -59,7 +59,12 @@ def create():
                 flash("Registration successful!")
             else:
                 flash("Registration failed.")
-    return redirect(url_for('users.new'))
+    return redirect(url_for('users.sign_up'))
+
+
+@users_blueprint.route('/sign_in', methods["GET"])
+def sign_in():
+    pass
 
 
 @users_blueprint.route('/<username>', methods=["GET"])
