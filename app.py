@@ -14,7 +14,16 @@ app.secret_key = os.getenv("SECRET_KEY")
 csrf = CSRFProtect(app)
 login_manager.init_app(app)
 
-
+#def error_500(e):
+#    return render_template('500.html'), 500
+#
+#app.register_error_handler(500, error_500)
+#
+#
+#def error_404(e):
+#    return render_template('404.html'), 404
+#
+#app.register_error_handler(404, error_404)
 
 if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object("config.ProductionConfig")

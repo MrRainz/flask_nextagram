@@ -10,8 +10,12 @@ assets.register(bundles)
 app.register_blueprint(users_blueprint, url_prefix="/users")
 
 @app.errorhandler(500)
-def internal_server_error(e):
+def error_500(e):
     return render_template('500.html'), 500
+
+@app.errorhandler(404)
+def error_404(e):
+    return render_template('404.html'), 404
 
 
 @app.route("/")
