@@ -1,9 +1,10 @@
 from models.base_model import BaseModel
+from flask_login import UserMixin
 import peewee as pw
 import re
 from werkzeug.security import generate_password_hash
 
-class User(BaseModel):
+class User(BaseModel, UserMixin):
     name = pw.CharField(unique=False)
     username = pw.CharField(unique=True)
     email = pw.CharField(unique=True)
@@ -20,8 +21,8 @@ class User(BaseModel):
         if existing_user_email:
             self.errors.append(f"{self.email} already taken!")
         
-        if len(self.username) < 6 or len(self.username) > 20:
-            self.errors.append("Username needs to be 6-20 characters long.")
+        if (len(self.username) < 6 or len(self.username) > 20) and "@" in self.username:
+            self.errors.append("Username needs to be 6-20 characters long and can't contain @.")
         
         if len(self.name) == 0 or len(self.name) > 50:
             self.errors.append("Name needs to be 1-50 characters long.")
