@@ -1,4 +1,10 @@
 {% extends "_layout.html" %}
 {% block content %}
 <h1>user list</h1>
+<div style="display: flex; flex-direction: column">
+    {% for user in users %}
+        <a href="{{ url_for('users.show', username=user.username) }}">{{user.username}}</a>
+    {% endfor %}
+</div>
+
 {% endblock %}

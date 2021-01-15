@@ -65,12 +65,18 @@ def create():
 
 @users_blueprint.route('/<username>', methods=["GET"])
 def show(username):
-    pass
+    user = User.get_or_none(User.username == username)
+    if user:
+        return render_template("users/show.html", user=user)
+    else:
+        flash("User doesn't exist")
+        return redirect(url_for('home'))
 
 
 @users_blueprint.route('/', methods=["GET"])
 def index():
-    return render_template('users/user_list.html')
+    users = User.select()
+    return render_template('users/user_list.html', users=users)
 
 
 @users_blueprint.route('/<id>/edit', methods=['GET'])
