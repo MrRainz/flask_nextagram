@@ -15,6 +15,10 @@ app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 def error_500(e):
     return render_template('500.html'), 500
 
+@app.errorhandler(401)
+def error_401(e):
+    return render_template('401.html'), 401
+
 @app.errorhandler(404)
 def error_404(e):
     return render_template('404.html'), 404

@@ -31,6 +31,7 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <button type="submit"class="btn btn-primary">Log Out</button>
       </form>
+      <a href="{{ url_for('users.edit', id=current_user.id) }}">Edit Profile</a>
     </div>   
     {% else %}
     <div style="display: flex">
@@ -44,6 +45,7 @@
     <a href="/">Homepage</a>
     <a href="{{ url_for('users.sign_up') }}">Sign Up</a>
     <a href="{{ url_for('users.index') }}">Users</a>
+    
     {% block content %}
     {% endblock %}
     {% with messages = get_flashed_messages() %}
