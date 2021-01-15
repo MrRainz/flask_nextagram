@@ -4,6 +4,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask import Flask
 from flask_login import LoginManager
 from models.base_model import db
+from models.user import *
 
 web_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'instagram_web')
@@ -14,16 +15,11 @@ app.secret_key = os.getenv("SECRET_KEY")
 csrf = CSRFProtect(app)
 login_manager.init_app(app)
 
-#def error_500(e):
-#    return render_template('500.html'), 500
-#
-#app.register_error_handler(500, error_500)
-#
-#
-#def error_404(e):
-#    return render_template('404.html'), 404
-#
-#app.register_error_handler(404, error_404)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_or_none(User.id==user_id)
+
 
 if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object("config.ProductionConfig")

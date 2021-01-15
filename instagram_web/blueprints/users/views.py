@@ -5,11 +5,6 @@ from app import login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get_or_none(User.id==user_id)
-
-
 users_blueprint = Blueprint('users',
                             __name__,
                             template_folder='templates')
@@ -36,42 +31,36 @@ def create():
         return redirect(url_for('users.sign_up'))
 
 
-@users_blueprint.route('/sign_in', methods=["GET"])
-def sign_in():
-    return render_template('users/sign_in.html')
+#@users_blueprint.route('/sign_in', methods=["GET"])
+#def sign_in():
+#    return render_template('users/sign_in.html')
+#
+#
+#@users_blueprint.route('/sign_in', methods=["POST"])
+#def login():
+#    username_or_email = request.form['username/email']
+#    input_password = request.form['password']
+#    if not username_or_email or not input_password:
+#        flash("Input field cannot be null.")
+#        return redirect(url_for('users.sign_in'))
+#    else:
+#        if "@" in username_or_email:
+#            user = User.get_or_none(User.email == username_or_email)
+#        else:
+#            user = User.get_or_none(User.username == username_or_email)
+#
+#    if user:
+#        if check_password_hash(user.hash_password, input_password):
+#            login_user(user)
+#            flash("Logged in!")
+#            return redirect(url_for('home'))
+#        else:
+#            flash("Incorrect password")
+#            return redirect(url_for('users.sign_in'))
+#    else:
+#        flash("Invalid username/email")
+#        return redirect(url_for('users.sign_in'))
 
-
-@users_blueprint.route('/sign_in', methods=["POST"])
-def login():
-    username_or_email = request.form['username/email']
-    input_password = request.form['password']
-    if not username_or_email or not input_password:
-        flash("Input field cannot be null.")
-        return redirect(url_for('users.sign_in'))
-    else:
-        if "@" in username_or_email:
-            user = User.get_or_none(User.email == username_or_email)
-        else:
-            user = User.get_or_none(User.username == username_or_email)
-
-    if user:
-        if check_password_hash(user.hash_password, input_password):
-            login_user(user)
-            flash("Logged in!")
-            return redirect(url_for('home'))
-        else:
-            flash("Incorrect password")
-            return redirect(url_for('users.sign_in'))
-    else:
-        flash("Invalid username/email")
-        return redirect(url_for('users.sign_in'))
-
-    
-@users_blueprint.route('/log_out', methods=["POST"])
-def logout():
-    logout_user()
-    flash("Logged out!")
-    return redirect(url_for('home'))
 
 
 @users_blueprint.route('/<username>', methods=["GET"])

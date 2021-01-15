@@ -27,7 +27,7 @@
     {% if current_user.is_authenticated %}
     <div style="display: flex">
       <h1>Hi {{ current_user.name }}!</h1>
-      <form action="{{ url_for('users.logout') }}" method="POST">
+      <form action="{{ url_for('sessions.logout') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <button type="submit"class="btn btn-primary">Log Out</button>
       </form>
@@ -35,9 +35,9 @@
     {% else %}
     <div style="display: flex">
       <h1>Hello, guest!</h1>
-      <button class="btn btn-primary">
-        <a href="{{ url_for('users.sign_in') }}" style="color: white">Sign in</a>
-      </button>
+      <form action="{{ url_for('sessions.new') }}" >
+        <button type="submit"class="btn btn-primary">Sign In</button>
+      </form>
     </div>  
     
     {% endif %}
