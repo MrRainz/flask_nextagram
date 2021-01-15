@@ -11,6 +11,7 @@ class User(BaseModel, UserMixin):
     hash_password = pw.CharField(null=False)
     password = None
     confirm_password = None
+    profile_image_url = pw.CharField(null=True)
 
     def validate(self):
         existing_user_username = User.get_or_none(User.username ** self.username)
