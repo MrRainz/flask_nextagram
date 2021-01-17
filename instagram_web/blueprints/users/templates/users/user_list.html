@@ -3,7 +3,7 @@
 <h1>user list</h1>
 <div style="display: flex; flex-direction: column">
     {% for user in users %}
-        <a href="{{ url_for('users.show', username=user.username) }}">{{user.username}}</a>
+        <a href="{{ url_for('users.show', id=user.id) }}">{{user.username}}</a>
     {% endfor %}
 </div>
 

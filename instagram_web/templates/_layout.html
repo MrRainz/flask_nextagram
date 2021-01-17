@@ -31,7 +31,15 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <button type="submit"class="btn btn-primary">Log Out</button>
       </form>
-      <a href="{{ url_for('users.edit', id=current_user.id) }}">Edit Profile</a>
+      <form action="{{ url_for('users.upload', id=current_user.id) }}" >
+        <button type="submit"class="btn btn-primary">Upload</button>
+      </form>
+      <form action="{{ url_for('users.edit', id=current_user.id) }}" >
+        <button type="submit"class="btn btn-primary">Edit Profile</button>
+      </form>
+      <form action="{{ url_for('users.profile', id=current_user.id) }}" >
+        <button type="submit"class="btn btn-primary">My Profile</button>
+      </form>
     </div>   
     {% else %}
     <div style="display: flex">

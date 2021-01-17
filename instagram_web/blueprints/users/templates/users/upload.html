@@ -1,0 +1,40 @@
+{% extends "_layout.html" %}
+
+{% block title %}
+  {{ user.username  }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h1>{{  user.username  }}</h1>
+<h1>{{  user.name  }}</h1>
+<h1>{{  user.email  }}</h1>
+<div>
+    {% if user.profile_image_url %}
+        <img style="width: 200px; height: 200px" src="{{ user.profile_image_url }}">
+    {% else %}
+        <p>No profile picture</p>
+    {% endif %}
+</div>
+
+
+<h1>Change Profile Image</h1>
+<form action="{{ url_for('users.upload_image', id=current_user.id) }}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="file" name="my_file"/>
+    <button type="submit"class="btn btn-primary">Upload</button>
+</form>
+{% endblock %}
+
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li style="list-style-type: none">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
