@@ -16,22 +16,21 @@ s3 = boto3.client(
     aws_secret_access_key=os.environ['AWS_SECRET']
 )
 
-@images_blueprint.route('/<id>/new', methods=['GET'])
+@images_blueprint.route('/<user_id>/new', methods=['GET'])
 @login_required
-def new(id):
-    user = User.get_by_id(id)
-    if current_user.id != int(id):
-        return redirect(url_for('images.new', id=current_user.id))
+def new(user_id):
+    if current_user.id != int(user_id):
+        return redirect(url_for('images.new', user_id=current_user.id))
     else:
-        user = User.get_or_none(User.id == id)
+        user = User.get_or_none(User.id == user_id)
         if user:
             return render_template('images/image.html', user=user)
         else:
-            return redirect(url_for('images.new', id=current_user.id))
+            return redirect(url_for('images.new', user_id=current_user.id))
 
 
-@images_blueprint.route('/<id>/new', methods=["POST"])
-def create(id):
+@images_blueprint.route('/<user_id>/new', methods=["POST"])
+def create(user_id):
     try:
         file = request.files["my_file"]
         s3.upload_fileobj(
@@ -48,7 +47,7 @@ def create(id):
         region = os.environ["REGION"]
         platform = os.environ["PLATFORM"]
         url = f"https://{bucket_name}.{region}.{platform}/images/{file.filename}"
-        user = User.get_by_id(id)
+        user = User.get_by_id(user_id)
         image = Image(user_id=user.id, image_url=url)
         if image.save():
             flash("Picture saved.")
@@ -57,4 +56,4 @@ def create(id):
         return redirect(url_for("users.profile", id=current_user.id))
     except:
         flash("Upload failed. Did you select a file?")
-        return redirect(url_for("images.new", id=current_user.id))
+        return redirect(url_for("images.new", user_id=current_user.id))

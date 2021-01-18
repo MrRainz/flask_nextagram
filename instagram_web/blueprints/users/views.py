@@ -42,8 +42,9 @@ def create():
 @users_blueprint.route('/<id>', methods=["GET"])
 def show(id):
     user = User.get_or_none(User.id == id)
+    images = pw.prefetch(Image.select().where(Image.user_id == id), User)
     if user:
-        return render_template("users/show.html", user=user)
+        return render_template("users/show.html", user=user, images=images)
     else:
         flash("User doesn't exist")
         return redirect(url_for('home'))
@@ -53,11 +54,12 @@ def show(id):
 @login_required
 def profile(id):
     user = User.get_or_none(User.id == id)
+    images = pw.prefetch(Image.select().where(Image.user_id == id), User)
     if current_user.id != int(id):
         return render_template("users/user_list.html", user=user)
     else:
         if user:
-            return render_template('users/show.html', user=user)
+            return render_template('users/show.html', user=user, images=images)
         else:
             return render_template("users/user_list.html", user=user)
 
