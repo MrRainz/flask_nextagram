@@ -32,13 +32,16 @@
         <button type="submit"class="btn btn-primary">Log Out</button>
       </form>
       <form action="{{ url_for('users.upload', id=current_user.id) }}" >
-        <button type="submit"class="btn btn-primary">Upload</button>
+        <button type="submit"class="btn btn-primary">Change Profile Picture</button>
       </form>
       <form action="{{ url_for('users.edit', id=current_user.id) }}" >
         <button type="submit"class="btn btn-primary">Edit Profile</button>
       </form>
       <form action="{{ url_for('users.profile', id=current_user.id) }}" >
         <button type="submit"class="btn btn-primary">My Profile</button>
+      </form>
+      <form action="{{ url_for('images.new', id=current_user.id) }}" >
+        <button type="submit"class="btn btn-primary">Upload Picture</button>
       </form>
     </div>   
     {% else %}

@@ -138,6 +138,8 @@ def upload_image(id):
             flash("Profile picture changed.")
         else:
             flash("Profile picture not changed.")
+        return redirect(url_for("users.profile", id=current_user.id))
     except:
         flash("Upload failed. Did you select a file?")
-    return redirect(url_for("users.profile", id=current_user.id))
+        return redirect(url_for("users.upload", id=current_user.id))
+    
