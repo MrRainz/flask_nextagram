@@ -116,8 +116,8 @@ def upload(id):
 @users_blueprint.route('/<id>/upload', methods=["POST"])
 @login_required
 def upload_image(id):
-    file = request.files["my_file"]
     try:
+        file = request.files["my_file"]
         s3.upload_fileobj(
             file,
             os.environ["BUCKET_NAME"],
@@ -128,16 +128,16 @@ def upload_image(id):
             }
         )
         flash("Successfully uploaded") 
+        bucket_name = os.environ["BUCKET_NAME"]
+        region = os.environ["REGION"]
+        platform = os.environ["PLATFORM"]
+        url = f"https://{bucket_name}.{region}.{platform}/images/{file.filename}"
+        user = User.get_by_id(id)
+        user.profile_image_url = url
+        if user.save():
+            flash("Profile picture changed.")
+        else:
+            flash("Profile picture not changed.")
     except:
-        flash("Did you select a file?")
-    bucket_name = os.environ["BUCKET_NAME"]
-    region = os.environ["REGION"]
-    platform = os.environ["PLATFORM"]
-    url = f"https://{bucket_name}.{region}.{platform}/images/{file.filename}"
-    user = User.get_by_id(id)
-    user.profile_image_url = url
-    if user.save():
-        flash("Profile picture changed.")
-    else:
-        flash("Profile picture not changed.")
+        flash("Upload failed. Did you select a file?")
     return redirect(url_for("users.profile", id=current_user.id))
