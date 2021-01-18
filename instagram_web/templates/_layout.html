@@ -19,46 +19,16 @@
 
     <title>
       {% block title %}
-      {% endblock %}NEXTAGRAM
+      {% endblock %}Nextagram
     </title>
 
   </head>
   <body>
-    {% if current_user.is_authenticated %}
-    <div style="display: flex">
-      <h1>Hi {{ current_user.username }}!</h1>
-      <form action="{{ url_for('sessions.logout') }}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <button type="submit"class="btn btn-primary">Log Out</button>
-      </form>
-      <form action="{{ url_for('users.upload', id=current_user.id) }}" >
-        <button type="submit"class="btn btn-primary">Change Profile Picture</button>
-      </form>
-      <form action="{{ url_for('users.edit', id=current_user.id) }}" >
-        <button type="submit"class="btn btn-primary">Edit Profile</button>
-      </form>
-      <form action="{{ url_for('users.profile', id=current_user.id) }}" >
-        <button type="submit"class="btn btn-primary">My Profile</button>
-      </form>
-      <form action="{{ url_for('images.new', user_id=current_user.id) }}" >
-        <button type="submit"class="btn btn-primary">Upload Picture</button>
-      </form>
-    </div>   
-    {% else %}
-    <div style="display: flex">
-      <h1>Hello, guest!</h1>
-      <form action="{{ url_for('sessions.new') }}" >
-        <button type="submit"class="btn btn-primary">Sign In</button>
-      </form>
-    </div>  
-    
-    {% endif %}
-    <a href="/">Homepage</a>
-    <a href="{{ url_for('users.sign_up') }}">Sign Up</a>
-    <a href="{{ url_for('users.index') }}">Users</a>
+    {% include 'nav.html' %}
     
     {% block content %}
     {% endblock %}
+
     {% with messages = get_flashed_messages() %}
       {% if messages %}
           <ul class=flashes>
@@ -68,6 +38,7 @@
           </ul>
       {% endif %}
     {% endwith %}
+    
     <footer>
       Made with &hearts; at <a target="_blank" href="https://www.nextacademy.com/?utm_source=github&utm_medium=student-challenge&utm_campaign=flask-nextagram">NEXT Academy</a>
     </footer>
