@@ -117,16 +117,19 @@ def upload(id):
 @login_required
 def upload_image(id):
     file = request.files["my_file"]
-    s3.upload_fileobj(
-        file,
-        os.environ["BUCKET_NAME"],
-        "images/" + file.filename,
-        ExtraArgs = {
-            "ACL": "public-read",
-            "ContentType": file.content_type
-        }
-    )
-    flash("Successfully uploaded")  
+    try:
+        s3.upload_fileobj(
+            file,
+            os.environ["BUCKET_NAME"],
+            "images/" + file.filename,
+            ExtraArgs = {
+                "ACL": "public-read",
+                "ContentType": file.content_type
+            }
+        )
+        flash("Successfully uploaded") 
+    except:
+        flash("Did you select a file?")
     bucket_name = os.environ["BUCKET_NAME"]
     region = os.environ["REGION"]
     platform = os.environ["PLATFORM"]
