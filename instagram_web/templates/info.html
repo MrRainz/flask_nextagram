@@ -1,0 +1,10 @@
+<h1>{{  user.username  }}</h1>
+<h1>{{  user.name  }}</h1>
+<h1>{{  user.email  }}</h1>
+<div>
+    {% if user.profile_image_url %}
+        <img style="width: 200px; height: 200px" src="{{ user.profile_image_url }}">
+    {% else %}
+        <img style="width: 200px; height: 200px" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" />
+    {% endif %}
+  </div>

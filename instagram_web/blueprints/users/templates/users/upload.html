@@ -8,16 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{  user.username  }}</h1>
-<h1>{{  user.name  }}</h1>
-<h1>{{  user.email  }}</h1>
-<div>
-    {% if user.profile_image_url %}
-        <img style="width: 200px; height: 200px" src="{{ user.profile_image_url }}">
-    {% else %}
-        <p>No profile picture</p>
-    {% endif %}
-</div>
+{% include "info.html" %}
 
 
 <h1>Change Profile Image</h1>
@@ -28,13 +19,4 @@
 </form>
 {% endblock %}
 
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class=flashes>
-            {% for message in messages %}
-                <li style="list-style-type: none">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
+{% include 'flash.html' %}

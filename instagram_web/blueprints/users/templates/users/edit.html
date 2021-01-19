@@ -8,10 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{  user.username  }}</h1>
-    <h1>{{  user.name  }}</h1>
-    <h1>{{  user.email  }}</h1>
-    
+{% include "info.html" %}    
 
     <form action="{{ url_for('users.update', id=user.id) }}" method="POST">
         <div class="form-group">
@@ -36,14 +33,4 @@
     </form>
 {% endblock %}
 
-
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class=flashes>
-            {% for message in messages %}
-                <li style="list-style-type: none">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
+{% include 'flash.html' %}

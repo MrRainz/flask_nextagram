@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{user.username}}</h1>
+{% include "info.html" %}
 <h1>Upload Image</h1>
 <form action="{{ url_for('images.create', user_id=current_user.id) }}" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
