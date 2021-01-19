@@ -47,6 +47,4 @@ class User(BaseModel, UserMixin):
             else:
                 self.errors.append("Password needs to have at least 1 uppercase letter, 1 lower case letter, and 1 special character.")
 
-class Image(BaseModel):
-    user = pw.ForeignKeyField(User, backref='images')
-    image_url = pw.CharField(null=False)
+

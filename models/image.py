@@ -1,0 +1,6 @@
+from models.base_model import BaseModel
+import peewee as pw
+
+class Image(BaseModel):
+    user = pw.ForeignKeyField(User, backref='images')
+    image_url = pw.CharField(null=False)
