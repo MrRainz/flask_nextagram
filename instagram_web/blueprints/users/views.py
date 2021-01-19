@@ -36,7 +36,7 @@ def create():
         flash("Registration successful!")
         return redirect(url_for('home'))
     else:
-        flash(user.errors)
+        flash(user.errors, "danger")
         return redirect(url_for('users.sign_up'))
 
 
@@ -47,7 +47,7 @@ def show(id):
     if user:
         return render_template("users/show.html", user=user, images=images)
     else:
-        flash("User doesn't exist")
+        flash("User doesn't exist", "danger")
         return redirect(url_for('home'))
 
 
@@ -96,9 +96,9 @@ def update(id):
         user.password = request.form['password']
         user.confirm_password = request.form['confirm_password']
     if user.save():
-        flash("Successfully editted.")
+        flash("Successfully editted.", "success")
     else:
-        flash(user.errors)
+        flash(user.errors, "danger")
     return redirect(url_for('users.edit', id=current_user.id))
 
 
@@ -130,7 +130,7 @@ def upload_image(id):
                 "ContentType": file.content_type
             }
         )
-        flash("Successfully uploaded") 
+        flash("Successfully uploaded", "success") 
         bucket_name = os.environ["BUCKET_NAME"]
         region = os.environ["REGION"]
         platform = os.environ["PLATFORM"]
@@ -138,11 +138,11 @@ def upload_image(id):
         user = User.get_by_id(id)
         user.profile_image_url = url
         if user.save():
-            flash("Profile picture changed.")
+            flash("Profile picture changed.", "success")
         else:
-            flash("Profile picture not changed.")
+            flash("Profile picture not changed.", "danger")
         return redirect(url_for("users.profile", id=current_user.id))
     except:
-        flash("Upload failed. Did you select a file?")
+        flash("Upload failed. Did you select a file?", "danger")
         return redirect(url_for("users.upload", id=current_user.id))
     

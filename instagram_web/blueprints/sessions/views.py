@@ -18,7 +18,7 @@ def create():
     username_or_email = request.form['username/email']
     input_password = request.form['password']
     if not username_or_email or not input_password:
-        flash("Input field cannot be null.")
+        flash("Input field cannot be null.", "danger")
         return redirect(url_for('sessions.new'))
     else:
         if "@" in username_or_email:
@@ -29,18 +29,18 @@ def create():
     if user:
         if check_password_hash(user.hash_password, input_password):
             login_user(user)
-            flash("Logged in!")
+            flash("Logged in!", "success")
             return redirect(url_for('home'))
         else:
-            flash("Incorrect password")
+            flash("Incorrect password", "danger")
             return redirect(url_for('sessions.new'))
     else:
-        flash("Invalid username/email")
+        flash("Invalid username/email", "danger")
         return redirect(url_for('sessions.new'))
 
 
 @sessions_blueprint.route('/log_out', methods=["POST"])
 def logout():
     logout_user()
-    flash("Logged out!")
+    flash("Logged out!", "success")
     return redirect(url_for('home'))

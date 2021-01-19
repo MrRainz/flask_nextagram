@@ -25,11 +25,13 @@
   </head>
   <body>
     {% include 'nav.html' %}
-    
+    <div>
+      {% include 'flash.html' %}
+    </div>
     {% block content %}
     {% endblock %}
 
-    {% include 'flash.html' %}
+    
     
     <footer>
       Made with &hearts; at <a target="_blank" href="https://www.nextacademy.com/?utm_source=github&utm_medium=student-challenge&utm_campaign=flask-nextagram">NEXT Academy</a>
