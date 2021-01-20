@@ -2,10 +2,12 @@ from flask import Blueprint, render_template, flash, redirect, request, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from models.user import *
 from models.image import *
+from models.donation import *
 from app import login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 import boto3, botocore
 import os
+import peewee as pw
 
 users_blueprint = Blueprint('users',
                             __name__,
@@ -42,10 +44,10 @@ def create():
 
 @users_blueprint.route('/<id>', methods=["GET"])
 def show(id):
-    user = User.get_or_none(User.id == id)
-    images = pw.prefetch(Image.select().where(Image.user_id == id), User)
+    user = User.select().where(User.id == id)
     if user:
-        return render_template("users/show.html", user=user, images=images)
+        user = pw.prefetch(user, Image, Donation)[0]
+        return render_template("users/show.html", user=user)
     else:
         flash("User doesn't exist", "danger")
         return redirect(url_for('home'))
@@ -54,13 +56,13 @@ def show(id):
 @users_blueprint.route('/<id>/profile', methods=["GET"])
 @login_required
 def profile(id):
-    user = User.get_or_none(User.id == id)
-    images = pw.prefetch(Image.select().where(Image.user_id == id), User)
+    user = User.select().where(User.id == id)
     if current_user.id != int(id):
         return render_template("users/user_list.html", user=user)
     else:
         if user:
-            return render_template('users/show.html', user=user, images=images)
+            user = pw.prefetch(user, Image, Donation)[0]
+            return render_template('users/show.html', user=user)
         else:
             return render_template("users/user_list.html", user=user)
 

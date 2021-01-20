@@ -11,8 +11,13 @@
 {% include "info.html" %}
   <div>
     <h3>Images</h3>
-    {% for image in images %}
+    {% for image in user.images %}
     <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
+    <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
+    <form action="{{url_for('donations.new', image_id=image.id)}}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <input type="submit" value="Donate" class="btn btn-secondary">
+    </form>
     {% endfor %}
   </div>
 {% endblock %}
