@@ -124,7 +124,7 @@ def upload_image(id):
         s3.upload_fileobj(
             file,
             os.environ["BUCKET_NAME"],
-            "images/" + file.filename,
+            f"images/{id}/" + file.filename,
             ExtraArgs = {
                 "ACL": "public-read",
                 "ContentType": file.content_type
@@ -134,7 +134,7 @@ def upload_image(id):
         bucket_name = os.environ["BUCKET_NAME"]
         region = os.environ["REGION"]
         platform = os.environ["PLATFORM"]
-        url = f"https://{bucket_name}.{region}.{platform}/images/{file.filename}"
+        url = f"https://{bucket_name}.{region}.{platform}/images/{id}/{file.filename}"
         user = User.get_by_id(id)
         user.profile_image_url = url
         if user.save():

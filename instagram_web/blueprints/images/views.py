@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, request, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from models.user import *
+from models.image import *
 from app import login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 import boto3, botocore
@@ -36,24 +37,24 @@ def create(user_id):
         s3.upload_fileobj(
             file,
             os.environ["BUCKET_NAME"],
-            "images/" + file.filename,
+            f"images/{user_id}/" + file.filename,
             ExtraArgs = {
                 "ACL": "public-read",
                 "ContentType": file.content_type
             }
         )
-        flash("Successfully uploaded") 
+        flash("Successfully uploaded", "success") 
         bucket_name = os.environ["BUCKET_NAME"]
         region = os.environ["REGION"]
         platform = os.environ["PLATFORM"]
-        url = f"https://{bucket_name}.{region}.{platform}/images/{file.filename}"
+        url = f"https://{bucket_name}.{region}.{platform}/images/{user_id}/{file.filename}"
         user = User.get_by_id(user_id)
         image = Image(user_id=user.id, image_url=url)
         if image.save():
-            flash("Picture saved.")
+            flash("Picture saved.", "success")
         else:
-            flash("Picture not saved.")
+            flash("Picture not saved.", "danger")
         return redirect(url_for("users.profile", id=current_user.id))
     except:
-        flash("Upload failed. Did you select a file?")
+        flash("Upload failed. Did you select a file?", "danger")
         return redirect(url_for("images.new", user_id=current_user.id))
