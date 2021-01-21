@@ -12,7 +12,7 @@ oauth.register('google',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     api_base_url='https://www.googleapis.com/oauth2/v1/',
     client_kwargs={
-        'scope': 'https://www.googleapis.com/auth/userinfo.email',
+        'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
         'token_endpoint_auth_method': 'client_secret_basic',
         'token_placement': 'header',
         'prompt': 'consent'

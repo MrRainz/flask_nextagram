@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, render_template, flash, redirect, request, url_for
 from flask_login import login_user, logout_user
 from models.user import *
@@ -56,10 +57,28 @@ def google_login():
 def authorize():
     oauth.google.authorize_access_token()
     email = oauth.google.get('https://www.googleapis.com/oauth2/v2/userinfo').json()['email']
+    name = oauth.google.get('https://www.googleapis.com/oauth2/v2/userinfo').json()['name']
+    split_email = email.split("@")
+    if len(split_email[0] + split_email[1]) < 50:
+        username = split_email[0] + split_email[1]
+    else:
+        if len(split_email[0]) > 50:
+            username = split_email[0][:49]
+        else:
+            username = split_email[0]
     user = User.get_or_none(User.email == email)
     if user:
         login_user(user)
         flash("Successfully logged in!", "success")
         return redirect(url_for("home"))
     else:
+        user = User(username=username, name=name, email=email, password=os.environ["PASSWORD"], confirm_password=os.environ["PASSWORD"])
+        if user.save():
+            flash("Registration successful!", "success")
+            login_user(user)
+            flash("Logged in!", "success")
+            return redirect(url_for('home'))
+        else:
+            flash(user.errors, "danger")
+            return redirect(url_for('users.sign_up'))
         return redirect(url_for("home"))

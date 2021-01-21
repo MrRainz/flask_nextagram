@@ -22,8 +22,8 @@ class User(BaseModel, UserMixin):
         if existing_user_email and existing_user_email.id != self.id:
             self.errors.append(f"{self.email} already taken!")
         
-        if (len(self.username) < 6 or len(self.username) > 20) or "@" in self.username:
-            self.errors.append("Username needs to be 6-20 characters long and can't contain @.")
+        if (len(self.username) < 6 or len(self.username) > 50) or "@" in self.username:
+            self.errors.append("Username needs to be 6-50 characters long and can't contain @.")
         
         if len(self.name) == 0 or len(self.name) > 50:
             self.errors.append("Name needs to be 1-50 characters long.")
