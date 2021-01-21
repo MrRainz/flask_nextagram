@@ -35,7 +35,7 @@ def create():
     confirm_password = request.form['confirm_password']
     user = User(username=username, name=name, email=email, password=password, confirm_password=confirm_password)
     if user.save():
-        flash("Registration successful!")
+        flash("Registration successful!", "success")
         return redirect(url_for('home'))
     else:
         flash(user.errors, "danger")
