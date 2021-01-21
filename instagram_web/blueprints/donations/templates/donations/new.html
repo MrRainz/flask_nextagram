@@ -4,7 +4,7 @@
 
 <form id="nonce-form" method="POST" action="{{url_for('donations.create', image_id=image_id)}}"> 
     <label for="amount">Amount: </label>
-    <input id="payment-amount" type="integer" name="amount">
+    <input id="payment-amount" type="number" step="1" min="1" name="amount">
     <input id="nonce" type="hidden" name="nonce">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 </form>

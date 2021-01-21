@@ -1,8 +1,9 @@
 import braintree
 import os
+import requests
 from decimal import Decimal
 from flask import Blueprint, render_template, flash, redirect, request, url_for
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from models.user import *
 from models.image import *
 from models.donation import *
@@ -45,6 +46,14 @@ def create(image_id):
         image = Image.get_by_id(image_id)
         donation = Donation(image=image, amount=Decimal(amount))
         if donation.save():
+            requests.post(
+		        "https://api.mailgun.net/v3/sandbox0034289fdb8f42949c0c0f20d87d5ac2.mailgun.org/messages",
+		        auth=("api", os.environ["API_KEY"]),
+		        data={"from": "Nextagram <mailgun@sandbox0034289fdb8f42949c0c0f20d87d5ac2.mailgun.org>",
+			        "to": ["yue_sum_96@hotmail.com"],
+			        "subject": "Donation",
+			        "text": f"{current_user.username} ({current_user.name}) has donated RM{amount}!"
+                    })
             flash("Donation recorded! ", "success")
         else:
             flash("Donation not recorded! ", "danger")
