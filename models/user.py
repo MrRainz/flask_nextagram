@@ -12,6 +12,7 @@ class User(BaseModel, UserMixin):
     password = None
     confirm_password = None
     profile_image_url = pw.CharField(null=True)
+    private = pw.BooleanField(default=False)
 
     def validate(self):
         existing_user_username = User.get_or_none(User.username ** self.username)
@@ -46,5 +47,28 @@ class User(BaseModel, UserMixin):
                 self.hash_password = generate_password_hash(self.password)
             else:
                 self.errors.append("Password needs to have at least 1 uppercase letter, 1 lower case letter, and 1 special character.")
+    
 
+    def get_followers(self):
+        return (
+            User.select()
+            .join(Follow, on=(User.id == Follow.followers))
+            .where(
+                (Follow.following == self)
+                &
+                (Follow.approved == True)
+            )
+        )
+
+
+    def get_followers(self):
+        return (
+            User.select()
+            .join(Follow, on=(User.id == Follow.followings))
+            .where(
+                (Follow.follower == self)
+                &
+                (Follow.approve == True)
+            )
+        )
 

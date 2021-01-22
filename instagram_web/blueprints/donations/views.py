@@ -50,7 +50,7 @@ def create(image_id):
 		        "https://api.mailgun.net/v3/sandbox0034289fdb8f42949c0c0f20d87d5ac2.mailgun.org/messages",
 		        auth=("api", os.environ["API_KEY"]),
 		        data={"from": "Nextagram <mailgun@sandbox0034289fdb8f42949c0c0f20d87d5ac2.mailgun.org>",
-			        "to": ["yue_sum_96@hotmail.com"],
+			        "to": ["yue_sum_96@hotmail.com"], #supposed to be recepient email in production
 			        "subject": "Donation",
 			        "text": f"{current_user.username} ({current_user.name}) has donated RM{amount}!"
                     })
