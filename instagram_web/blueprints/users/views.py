@@ -52,7 +52,6 @@ def show(id):
         for follower in followers:
             if follower.id == current_user.id:
                 following = True
-            
         if user:
             user = pw.prefetch(user, Image, Donation)[0]
             return render_template("users/show.html", user=user, id=id, following=following)
