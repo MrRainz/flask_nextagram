@@ -21,6 +21,7 @@ s3 = boto3.client(
 @login_required
 def new(user_id):
     if current_user.id != int(user_id):
+        flash("Something went wrong with accessing this URL, redirecting you to another page...", "danger")
         return redirect(url_for('images.new', user_id=current_user.id))
     else:
         user = User.get_or_none(User.id == user_id)

@@ -58,6 +58,7 @@ def show(id):
 def profile(id):
     user = User.select().where(User.id == id)
     if current_user.id != int(id):
+        flash("Something went wrong with accessing this URL, redirecting you to another page...", "danger")
         return render_template("users/user_list.html", user=user)
     else:
         if user:
@@ -77,6 +78,7 @@ def index():
 @login_required
 def edit(id):
     if current_user.id != int(id):
+        flash("Something went wrong with accessing this URL, redirecting you to another page...", "danger")
         return redirect(url_for('users.edit', id=current_user.id))
     else:
         user = User.get_or_none(User.id == id)
@@ -108,6 +110,7 @@ def update(id):
 @login_required
 def upload(id):
     if current_user.id != int(id):
+        flash("Something went wrong with accessing this URL, redirecting you to another page...", "danger")
         return redirect(url_for('users.upload', id=current_user.id))
     else:
         user = User.get_or_none(User.id == id)
@@ -147,4 +150,32 @@ def upload_image(id):
     except:
         flash("Upload failed. Did you select a file?", "danger")
         return redirect(url_for("users.upload", id=current_user.id))
+    
+
+@users_blueprint.route('/<id>/private', methods=["POST"])
+@login_required
+def private(id):
+    if current_user.id != int(id):
+        flash("Something went wrong with accessing this URL, redirecting you to another page...", "danger")
+        return redirect(url_for('users.profile', id=current_user.id))
+    else:
+        user = User.get_or_none(User.id == id)
+        if user:
+            if user.private:
+                user.private = False
+            else:
+                user.private = True
+            if user.save() and user.private:
+                flash("Profile changed to private!", "success")
+            elif user.save() and not user.private:
+                flash("Profile changed to public!", "success")   
+            else:  
+                flash("Error in updating profile", "danger")
+            return redirect(url_for('users.profile', id=current_user.id))
+        else:
+            return redirect(url_for('users.profile', id=current_user.id))
+    
+
+
+
     
