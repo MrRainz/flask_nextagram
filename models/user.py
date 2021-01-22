@@ -61,7 +61,7 @@ class User(BaseModel, UserMixin):
         )
 
 
-    def get_followers(self):
+    def get_followings(self):
         return (
             User.select()
             .join(Follow, on=(User.id == Follow.followings))

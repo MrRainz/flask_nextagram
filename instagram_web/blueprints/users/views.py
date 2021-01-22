@@ -47,7 +47,7 @@ def show(id):
     user = User.select().where(User.id == id)
     if user:
         user = pw.prefetch(user, Image, Donation)[0]
-        return render_template("users/show.html", user=user)
+        return render_template("users/show.html", user=user, id=id)
     else:
         flash("User doesn't exist", "danger")
         return redirect(url_for('home'))
