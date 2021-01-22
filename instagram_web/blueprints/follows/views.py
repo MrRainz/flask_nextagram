@@ -26,3 +26,15 @@ def follow(id):
     else:
         flash(f"Error following {user.username}!", "danger")
     return redirect(url_for('home'))
+
+@follows_blueprint.route('/<id>/unfollow_user', methods=["POST"])
+@login_required
+def unfollow(id):
+    follow = Follow.get_or_none((Follow.follower_id == current_user.id) & (Follow.following_id == id))
+    user = User.get_or_none(User.id == id)
+    if follow:
+        follow.delete_instance()
+        flash(f"Unfollowed {user.username}!", "success")
+    else:
+        flash(f"Error unfollowing {user.username}!", "danger")
+    return redirect(url_for('home'))

@@ -50,9 +50,10 @@ class User(BaseModel, UserMixin):
     
 
     def get_followers(self):
+        from models.follow import Follow
         return (
             User.select()
-            .join(Follow, on=(User.id == Follow.followers))
+            .join(Follow, on=(User.id == Follow.follower_id))
             .where(
                 (Follow.following == self)
                 &
@@ -62,13 +63,14 @@ class User(BaseModel, UserMixin):
 
 
     def get_followings(self):
+        from models.follow import Follow
         return (
             User.select()
-            .join(Follow, on=(User.id == Follow.followings))
+            .join(Follow, on=(User.id == Follow.following_id))
             .where(
                 (Follow.follower == self)
                 &
-                (Follow.approve == True)
+                (Follow.approved == True)
             )
         )
 

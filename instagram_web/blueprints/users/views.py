@@ -45,12 +45,28 @@ def create():
 @users_blueprint.route('/<id>', methods=["GET"])
 def show(id):
     user = User.select().where(User.id == id)
-    if user:
-        user = pw.prefetch(user, Image, Donation)[0]
-        return render_template("users/show.html", user=user, id=id)
+    if current_user.is_authenticated:
+        followers = user[0].get_followers()
+        following = False
+        print("FOR LOOP HERE")
+        for follower in followers:
+            if follower.id == current_user.id:
+                following = True
+            
+        if user:
+            user = pw.prefetch(user, Image, Donation)[0]
+            return render_template("users/show.html", user=user, id=id, following=following)
+        else:
+            flash("User doesn't exist", "danger")
+            return redirect(url_for('home'))
     else:
-        flash("User doesn't exist", "danger")
-        return redirect(url_for('home'))
+        if user:
+            user = pw.prefetch(user, Image, Donation)[0]
+            return render_template("users/show.html", user=user, id=id)
+        else:
+            flash("User doesn't exist", "danger")
+            return redirect(url_for('home'))
+
 
 
 @users_blueprint.route('/<id>/profile', methods=["GET"])
