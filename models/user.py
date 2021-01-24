@@ -79,9 +79,9 @@ class User(BaseModel, UserMixin):
         from models.follow import Follow
         return (
             User.select()
-            .join(Follow, on=(User.id == Follow.following_id))
+            .join(Follow, on=(User.id == Follow.follower_id))
             .where(
-                (Follow.follower == self)
+                (Follow.following == self)
                 &
                 (Follow.approved == False)
             )

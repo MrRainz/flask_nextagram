@@ -47,14 +47,20 @@ def show(id):
     user = User.select().where(User.id == id)
     if current_user.is_authenticated:
         followers = user[0].get_followers()
-        following = False
-        print("FOR LOOP HERE")
+        is_following = False
         for follower in followers:
             if follower.id == current_user.id:
-                following = True
+                is_following = True
+        requests = user[0].get_requests()
+        is_request = False
+        print("FOR LOOP HERE")
+        for request in requests:
+            print(request.id)
+            if request.id == current_user.id:
+                is_request = True
         if user:
             user = pw.prefetch(user, Image, Donation)[0]
-            return render_template("users/show.html", user=user, id=id, following=following)
+            return render_template("users/show.html", user=user, id=id, following=is_following, requesting=is_request)
         else:
             flash("User doesn't exist", "danger")
             return redirect(url_for('home'))
