@@ -53,9 +53,7 @@ def show(id):
                 is_following = True
         requests = user[0].get_requests()
         is_request = False
-        print("FOR LOOP HERE")
         for request in requests:
-            print(request.id)
             if request.id == current_user.id:
                 is_request = True
         if user:
