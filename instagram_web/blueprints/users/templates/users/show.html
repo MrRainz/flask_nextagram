@@ -11,6 +11,9 @@
 {% include "info.html" %}
 {% if current_user.is_authenticated %}
     {% if current_user.id == user.id %}
+        <form action="{{url_for('users.request', id=current_user.id)}}">
+            <input type="submit" value="Follower Requests" class="btn btn-secondary">
+        </form>
         {% if user.private %}
             <h1>Private Profile</h1>
             <form action="{{url_for('users.private', id=current_user.id)}}" method="POST">
@@ -33,7 +36,6 @@
         </div>
     {% else %}
         {% if following %}
-        <h1>Hello</h1>
         <form action="{{url_for('follows.unfollow', id=id)}}" method="POST">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
           <input type="submit" value="Unfollow" class="btn btn-secondary">
@@ -41,7 +43,6 @@
         {% elif requesting %}
         <input type="submit" value="Requested" class="btn btn-secondary" disabled>
         {% else %}
-        <h1>Goodbye</h1>
         <form action="{{url_for('follows.follow', id=id)}}" method="POST">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
           <input type="submit" value="Follow" class="btn btn-secondary">

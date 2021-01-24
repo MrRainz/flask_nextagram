@@ -195,6 +195,17 @@ def private(id):
             return redirect(url_for('users.profile', id=current_user.id))
     
 
+@users_blueprint.route('/<id>/request', methods=["GET"])
+@login_required
+def request(id):
+    if current_user.id != int(id):
+        flash("Something went wrong with accessing this URL, redirecting you to another page...", "danger")
+        return redirect(url_for('users.profile', id=current_user.id))
+    else:
+        user = User.select().where(User.id == id)
+        if user:
+            requests = user[0].get_requests()
+            return render_template('users/request.html', id=id, requests=requests, user=user[0])
+        else:
+            return redirect(url_for('users.profile', id=current_user.id))
 
-
-    

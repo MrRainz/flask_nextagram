@@ -43,3 +43,15 @@ def unfollow(id):
     else:
         flash(f"Error unfollowing {user.username}!", "danger")
     return redirect(url_for('users.show', id=id))
+
+
+@follows_blueprint.route("/<user_id>/approve/<follower_id>", methods=["POST"])
+@login_required
+def approve(user_id, follower_id):
+    pass
+
+
+@follows_blueprint.route("/<user_id>/delete/<follower_id>", methods=["POST"])
+@login_required
+def delete(user_id, follower_id):
+    pass
