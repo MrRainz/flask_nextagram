@@ -48,10 +48,27 @@ def unfollow(id):
 @follows_blueprint.route("/<user_id>/approve/<follower_id>", methods=["POST"])
 @login_required
 def approve(user_id, follower_id):
-    pass
+    follow = Follow.select().where((Follow.follower == follower_id) & (Follow.following == current_user.id))
+    if follow:
+        follow[0].approved = True
+        if follow[0].save():
+            flash("Request Approved! ", "success")
+        else:
+            flash("Error approving request.", "danger")
+        return redirect(url_for('users.request', id=current_user.id))
+    else:
+        flash("Sorry, error approving request.", "danger")
+        return redirect(url_for('users.profile', id=user_id))
 
 
 @follows_blueprint.route("/<user_id>/delete/<follower_id>", methods=["POST"])
 @login_required
 def delete(user_id, follower_id):
-    pass
+    follow = Follow.get_or_none((Follow.follower_id == follower_id) & (Follow.following_id == user_id))
+    user = User.get_or_none(User.id == user_id)
+    if follow:
+        follow.delete_instance()
+        flash("Follow request removed!", "success")
+    else:
+        flash(f"Error removing follow request!", "danger")
+    return redirect(url_for('users.request', id=user_id))
