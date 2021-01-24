@@ -19,13 +19,19 @@ def new(user_id):
 @follows_blueprint.route('/<id>/follow_user', methods=["POST"])
 @login_required
 def follow(id):
-    follow = Follow(following=id, follower=current_user.id)
     user = User.get_or_none(User.id == id)
+    if user.private:
+        follow = Follow(following=id, follower=current_user.id)
+        follow_message = f"Follow request sent to {user.username}, pending approval."
+    else:
+        follow = Follow(following=id, follower=current_user.id, approved=True)
+        follow_message = f"Followed {user.username}!", "success"
+    
     if follow.save():
-        flash(f"Followed {user.username}!", "success")
+        flash(follow_message, "success")
     else:
         flash(f"Error following {user.username}!", "danger")
-    return redirect(url_for('home'))
+    return redirect(url_for('users.show', id=id))
 
 @follows_blueprint.route('/<id>/unfollow_user', methods=["POST"])
 @login_required
@@ -37,4 +43,4 @@ def unfollow(id):
         flash(f"Unfollowed {user.username}!", "success")
     else:
         flash(f"Error unfollowing {user.username}!", "danger")
-    return redirect(url_for('home'))
+    return redirect(url_for('users.show', id=id))

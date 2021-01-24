@@ -74,3 +74,16 @@ class User(BaseModel, UserMixin):
             )
         )
 
+    
+    def get_requests(self):
+        from models.follow import Follow
+        return (
+            User.select()
+            .join(Follow, on=(User.id == Follow.following_id))
+            .where(
+                (Follow.follower == self)
+                &
+                (Follow.approved == False)
+            )
+        )
+
