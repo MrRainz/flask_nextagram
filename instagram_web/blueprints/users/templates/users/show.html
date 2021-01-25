@@ -40,14 +40,6 @@
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
           <input type="submit" value="Unfollow" class="btn btn-secondary">
         </form>
-        {% elif requesting %}
-        <input type="submit" value="Requested" class="btn btn-secondary" disabled>
-        {% else %}
-        <form action="{{url_for('follows.follow', id=id)}}" method="POST">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-          <input type="submit" value="Follow" class="btn btn-secondary">
-        </form>
-        {% endif %}
         <div>
             <h3>Images</h3>
             {% for image in user.images %}
@@ -59,19 +51,31 @@
             </form>
             {% endfor %}
         </div>
+        {% elif requesting %}
+        <input type="submit" value="Requested" class="btn btn-secondary" disabled>
+        <h1>You're requested to follow! Awaiting approval...</h1>
+        {% else %}
+        <form action="{{url_for('follows.follow', id=id)}}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input type="submit" value="Follow" class="btn btn-secondary">
+        </form>
+        <h1>You're not following this user! Follow to view posts.</h1>
+        {% endif %}
+
     {% endif %}
 {% else %}
     {% if user.private %}
         <h1>Private Profile</h1>  
+        <h1>You're not following this user! Follow to view posts.</h1>
     {% else %}
         <h1>Public Profile</h1>
+        <div>
+            <h3>Images</h3>
+            {% for image in user.images %}
+            <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
+            <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
+            {% endfor %}
+        </div>
     {% endif %}
-    <div>
-        <h3>Images</h3>
-        {% for image in user.images %}
-        <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
-        <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
-        {% endfor %}
-    </div>
 {% endif %}
 {% endblock %}
