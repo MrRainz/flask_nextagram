@@ -1,12 +1,29 @@
 {% extends "_layout.html" %}
 
 {% block title %}
-  Homepage
+    Homepage
 {% endblock %}
 
 {% block header %}
 {% endblock %}
 
 {% block content %}
-  <h1>Homepage</h1>
+    <div style="display: flex; flex-direction: column">
+        {% for following in followings %}
+            <a href="{{ url_for('users.show', id=following.id) }}">{{following.username}}</a>
+            <div>
+                {% if following.profile_image_url %}
+                    <img style="width: 200px; height: 200px" src="{{ following.profile_image_url }}">
+                {% else %}
+                    <img style="width: 200px; height: 200px" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" />
+                {% endif %}
+            </div>
+            <h3>Images</h3>
+            {% for image in following.images %}
+            <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
+            <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
 {% endblock %}

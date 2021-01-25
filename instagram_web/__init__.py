@@ -1,5 +1,8 @@
 from app import app
 from flask import render_template
+from flask_login import current_user
+from models.user import *
+from app import login_manager
 from instagram_web.blueprints.users.views import users_blueprint
 from instagram_web.blueprints.sessions.views import sessions_blueprint
 from instagram_web.blueprints.images.views import images_blueprint
@@ -33,4 +36,9 @@ def error_404(e):
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    if current_user.is_authenticated:
+        user = User.get_or_none(User.id == current_user.id)
+        followings = user.get_followings()        
+    else:
+        followings = []
+    return render_template('home.html', followings=followings)

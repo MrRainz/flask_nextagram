@@ -9,6 +9,18 @@
 <div style="display: flex; flex-direction: column">
     {% for user in users %}
         <a href="{{ url_for('users.show', id=user.id) }}">{{user.username}}</a>
+        <div>
+            {% if user.profile_image_url %}
+                <img style="width: 200px; height: 200px" src="{{ user.profile_image_url }}">
+            {% else %}
+                <img style="width: 200px; height: 200px" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" />
+            {% endif %}
+        </div>
+        {% if user.private %}
+        <p>Private Profile</p>
+        {% else %}
+        <p>Public Profile</p>
+        {% endif %}
     {% endfor %}
 </div>
 

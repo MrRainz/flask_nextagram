@@ -64,6 +64,8 @@ class User(BaseModel, UserMixin):
 
     def get_followings(self):
         from models.follow import Follow
+        from models.image import Image
+        from models.donation import Donation
         return (
             User.select()
             .join(Follow, on=(User.id == Follow.following_id))
@@ -71,7 +73,7 @@ class User(BaseModel, UserMixin):
                 (Follow.follower == self)
                 &
                 (Follow.approved == True)
-            )
+            ).prefetch(Image, Donation)
         )
 
     
