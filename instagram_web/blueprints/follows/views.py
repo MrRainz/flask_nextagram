@@ -25,7 +25,7 @@ def follow(id):
         follow_message = f"Follow request sent to {user.username}, pending approval."
     else:
         follow = Follow(following=id, follower=current_user.id, approved=True)
-        follow_message = f"Followed {user.username}!", "success"
+        follow_message = f"Followed {user.username}!"
     if follow.save():
         flash(follow_message, "success")
     else:
