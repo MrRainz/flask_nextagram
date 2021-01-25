@@ -1,29 +1,59 @@
 {% extends "_layout.html" %}
 
 {% block title %}
-    Homepage
+Homepage
 {% endblock %}
 
 {% block header %}
 {% endblock %}
 
 {% block content %}
-    <div style="display: flex; flex-direction: column">
-        {% for following in followings %}
-            <a href="{{ url_for('users.show', id=following.id) }}">{{following.username}}</a>
-            <div>
-                {% if following.profile_image_url %}
-                    <img style="width: 200px; height: 200px" src="{{ following.profile_image_url }}">
-                {% else %}
-                    <img style="width: 200px; height: 200px" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" />
-                {% endif %}
-            </div>
-            <h3>Images</h3>
-            {% for image in following.images %}
-            <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
-            <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
-            {% endfor %}
-        {% endfor %}
+{% if current_user.is_authenticated %}
+  {% if followings %}
+    <div>
+      {% for following in followings %}
+      <div class="row d-flex flex-wrap" style="width: 99vw; background-color: gray; margin: 1vh">
+        <div class="card col-3 d-flex align-items-center" style="background-color: lightgray">
+          <a href="{{ url_for('users.show', id=following.id) }}">
+          {% if following.profile_image_url %}
+          <img class="rounded-circle" style="width: 350px; height: 350px; border: 1px darkgray solid; margin-top: 1vh" src="{{ following.profile_image_url }}">
+          {% else %}
+          <img class="rounded-circle" style="width: 350px; height: 350px; border: 1px darkgray solid; margin-top: 1vh" src="http://next-curriculum-instagram.s3.amazonaws.com/profile-placeholder.jpg"
+            alt="" />
+          {% endif %}
+          </a>
+          <a style="color: black; font-size: 3vh" href="{{ url_for('users.show', id=following.id) }}">{{following.username}}</a>
+        </div>
+        
+        <div class="col-9 d-flex flex-wrap">
+          {% for image in following.images %}
+          <div class="card" style="justify-content: center; background-color: lightgray; margin: 1vh">
+            <img style="width: 200px; height: 200px; margin: 1vh; border: 1px solid black" src="{{ image.image_url }}">
+            <p style="text-align: center; font-size: 2vh; margin-bottom: 0">Donations:</p>
+            <p style="text-align: center; font-size: 2vh">RM {{image.donations | sum(attribute="amount")}}</p>
+            <form style="justify-content: center; margin: auto; margin-top: 0; margin-bottom: 0" action="{{url_for('donations.new', image_id=image.id)}}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+              <input type="submit" value="Donate" class="btn btn-secondary">
+            </form>
+          </div>
+
+          {% endfor %}
+        </div>
+      </div>
+
+      {% endfor %}
     </div>
-    
+  {% else %}
+    <div class="jumbotron" style="position: fixed; top: 35vh; text-align: center; left: 22vh">
+      <h1 class="display-4">So you've logged in and it's still blank?</h1>
+      <h1 class="display-4">Either you haven't followed anyone or you have no friends :)</h1>
+    </div>
+  {% endif %}
+{% else %}
+<div class="jumbotron" style="position: fixed; top: 35vh; text-align: center; left: 25vh">
+  <h1 class="display-4">This page is blank by design. </h1>
+  <h1 class="display-4">Log in to see some pictures by other people you follow!</h1>
+</div>
+{% endif %}
+
 {% endblock %}
