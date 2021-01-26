@@ -1,26 +1,31 @@
 {% extends "_layout.html" %}
 {% block content %}
 
-<h1>User Sign Up</h1>
-<form action="{{ url_for('users.create') }}" method="POST">
-    <div class="form-group">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<div style="width: 30vw; margin: auto; margin-top: 20vh; border: 2px solid gray; padding: 2vh">
+
+    <h3 style="text-align: center; margin: 1vh 0 5vh 0">Nextagram Sign Up</h3>
+    <form action="{{ url_for('users.create') }}" method="POST">
+        <div class="form-group">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         
-        <label for="username">Username</label>
-        <input type='text' name='username' placeholder="5-50 characters" class="form-control" />
+            <label style="padding-top: 1vh; font-size: 2vh" for="username">Username</label>
+            <input type='text' name='username' placeholder="5-50 characters" class="form-control" />
 
-        <label for="name">Display Name</label>
-        <input type='text' name='name' placeholder="1-50 characters" class="form-control" />
+            <label style="padding-top: 1vh; font-size: 2vh" for="name">Display Name</label>
+            <input type='text' name='name' placeholder="1-50 characters" class="form-control" />
 
-        <label for="email">E-mail</label>
-        <input type='email' name='email' placeholder="example@someservice.com" class="form-control" />
+            <label style="padding-top: 1vh; font-size: 2vh" for="email">Email</label>
+            <input type='email' name='email' placeholder="example@someservice.com" class="form-control" />
 
-        <label for="password">Password</label>
-        <input type='password' name='password' placeholder="Input password with length 8-20 characters" class="form-control" />
+            <label style="padding-top: 1vh; font-size: 2vh" for="password">Password</label>
+            <input type='password' name='password' placeholder="Input password with length 8-20 characters" class="form-control" />
 
-        <label for="confirm_password">Confirm Password</label>
-        <input type='password' name='confirm_password' placeholder="Retype password" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+            <label style="padding-top: 1vh; font-size: 2vh" for="confirm_password">Confirm Password</label>
+            <input type='password' name='confirm_password' placeholder="Retype password" class="form-control" />
+
+            <button style="margin-top: 3vh" type="submit" class="btn btn-secondary">Register</button>
+        </div>
+        
+    </form>
+</div>
 {% endblock %}

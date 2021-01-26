@@ -1,31 +1,29 @@
 {% extends "_layout.html" %}
 {% block content %}
-<h1>User Log In</h1>
-<form action="{{ url_for('sessions.create') }}" method="POST">
-    <div class="form-group">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        
-        <label for="username/email">Username/Email</label>
-        <input type='text' name='username/email' placeholder="Key in username or email" class="form-control" />
 
-        <label for="password">Password</label>
-        <input type='password' name='password' placeholder="Input password with length 8-20 characters" class="form-control" />
+<div style="width: 30vw; margin: auto; margin-top: 20vh; border: 2px solid gray; padding: 2vh">
+    <h3 style="text-align: center; margin: 1vh 0 5vh 0">Nextagram Log In</h3>
+    <form  action="{{ url_for('sessions.create') }}" method="POST">
+        <div class="form-group">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            
+            <label style="padding-top: 1vh; font-size: 2vh" for="username/email">Username/Email</label>
+            <input type='text' name='username/email' placeholder="Key in username or email" class="form-control" />
+    
+            <label style="padding-top: 1vh; font-size: 2vh" for="password">Password</label>
+            <input type='password' name='password' placeholder="Password" class="form-control" />
+    
+        </div>
+        <button type="submit" class="btn btn-secondary">Log In</button>
+    </form>
+</div>
 
-    </div>
-    <button type="submit" class="btn btn-primary">Log In</button>
-</form>
-<form action="{{ url_for('sessions.google_login') }}" >
-    <button type="submit"class="btn btn-secondary">Sign In/Sign Up with Google</button>
-</form>
+<div style="width: 30vw; margin: auto; margin-top: 2vh; border: 2px solid gray; padding: 2vh; display: flex; flex-direction: column">
+    <h3 style="text-align: center; margin: 1vh 0 3vh 0">Google Sign In/Sign Up</h3>
+    <form style="margin: auto; align-items: center" action="{{ url_for('sessions.google_login') }}" >
+        <button type="submit"class="btn btn-secondary">Sign In/Sign Up with Google</button>
+    </form>
+</div>
+
 {% endblock %}
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class=flashes>
-            {% for message in messages %}
-                <li style="list-style-type: none">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
 
