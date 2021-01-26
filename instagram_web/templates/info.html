@@ -1,10 +1,15 @@
-<h1>{{  user.username  }}</h1>
-<h1>{{  user.name  }}</h1>
-<h1>{{  user.email  }}</h1>
-<div>
-    {% if user.profile_image_url %}
-        <img style="width: 200px; height: 200px" src="{{ user.profile_image_url }}">
-    {% else %}
-        <img style="width: 200px; height: 200px" src="http://next-curriculum-instagram.s3.amazonaws.com/profile-placeholder.jpg" alt="" />
-    {% endif %}
+<div class="card col-4 d-flex align-items-center" style="background-color: rgb(248, 248, 248); margin: auto">
+{% if user.profile_image_url %}
+    <img class="card-img-top rounded-circle" style="width: 30vh; height: 30vh; margin: 2vh" src="{{ user.profile_image_url }}">
+{% else %}
+    <img class="card-img-top rounded-circle" style="width: 30vh; height: 30vh; margin: 2vh" src="http://next-curriculum-instagram.s3.amazonaws.com/profile-placeholder.jpg" alt="" />
+{% endif %}
+<h3>Username: {{  user.username  }}</h3>
+<h3>Name: {{  user.name  }}</h3>
+<h3>Email: {{  user.email  }}</h3>
+{% if user.private %}
+<h3>Profile: Private</h3>
+{% else %}
+<h3>Profile: Public</h3>
+{% endif %}
 </div>

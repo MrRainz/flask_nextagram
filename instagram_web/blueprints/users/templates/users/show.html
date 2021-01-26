@@ -11,82 +11,85 @@
 {% include "info.html" %}
 {% if current_user.is_authenticated %}
     {% if current_user.id == user.id %}
-        <form action="{{url_for('users.request', id=current_user.id)}}">
-            <input type="submit" value="Follower Requests" class="btn btn-secondary">
-        </form>
-        {% if user.private %}
-            <h1>Private Profile</h1>
-            <form action="{{url_for('users.private', id=current_user.id)}}" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="submit" value="Make Public" class="btn btn-secondary">
+        <div style="display: flex; margin: auto; justify-content: center;">
+            <form action="{{url_for('users.request', id=current_user.id)}}">
+                <input type="submit" value="Follower Requests" class="btn btn-secondary">
             </form>
-        {% else %}
-            <h1>Public Profile</h1>
-            <form action="{{url_for('users.private', id=current_user.id)}}" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="submit" value="Make Private" class="btn btn-secondary">
-            </form>
-        {% endif %}
+            {% if user.private %}
+                <form action="{{url_for('users.private', id=current_user.id)}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input type="submit" value="Make Public" class="btn btn-secondary">
+                </form>
+            {% else %}
+                <form action="{{url_for('users.private', id=current_user.id)}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input type="submit" value="Make Private" class="btn btn-secondary">
+                </form>
+            {% endif %}
+        </div>
+        
         <div>
-            <h3>Images</h3>
-            {% for image in user.images %}
-                <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
-                <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
-            {% endfor %}
+            {% include "users/display.html" %}
         </div>
     {% else %}
         {% if user.private %}
-            <h1>Private Profile</h1>    
             {% if following %}
-            <form action="{{url_for('follows.unfollow', id=id)}}" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input type="submit" value="Unfollow" class="btn btn-secondary">
-            </form>
-            <div>
-                <h3>Images</h3>
-                {% for image in user.images %}
-                <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
-                <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
-                <form action="{{url_for('donations.new', image_id=image.id)}}">
+            <div style="display: flex; margin: auto; justify-content: center;">
+                <form action="{{url_for('follows.unfollow', id=id)}}" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <input type="submit" value="Donate" class="btn btn-secondary">
+                    <input type="submit" value="Unfollow" class="btn btn-secondary">
                 </form>
-                {% endfor %}
+            </div>
+            <div>
+                {% include "users/display_with_donate.html" %}
             </div>
             {% elif requesting %}
-            <input type="submit" value="Requested" class="btn btn-secondary" disabled>
-            <h1>You're requested to follow! Awaiting approval...</h1>
+            <div style="display: flex; margin: auto; justify-content: center;">
+                <input type="submit" value="Requested" class="btn btn-secondary" disabled>
+            </div>
+            <h3 style="text-align: center; margin: 1vh 0 3vh 0">You're requested to follow! Awaiting approval...</h3>
             {% else %}
-            <form action="{{url_for('follows.follow', id=id)}}" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input type="submit" value="Follow" class="btn btn-secondary">
-            </form>
-            <h1>You're not following this user! Follow to view posts.</h1>
+            <div style="display: flex; margin: auto; justify-content: center;">
+                <form action="{{url_for('follows.follow', id=id)}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input type="submit" value="Follow" class="btn btn-secondary">
+                </form>
+            </div>
+            <h3 style="text-align: center; margin: 1vh 0 3vh 0">You're not following this user! Follow to view posts.</h3>
             {% endif %}
         {% else %}
-            <h1>Public Profile</h1>
+            {% if following %}
+            <div style="display: flex; margin: auto; justify-content: center;">
+                <form action="{{url_for('follows.unfollow', id=id)}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input type="submit" value="Unfollow" class="btn btn-secondary">
+                </form>
+            </div>
             <div>
-                <h3>Images</h3>
-                {% for image in user.images %}
-                <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
-                <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
-                {% endfor %}
+                {% include "users/display_with_donate.html" %}
+            </div>
+            {% else %}
+            <div style="display: flex; margin: auto; justify-content: center;">
+                <form action="{{url_for('follows.follow', id=id)}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input type="submit" value="Follow" class="btn btn-secondary">
+                </form>
+            </div>
+            <h3 style="text-align: center; margin: 1vh 0 3vh 0">You're not following this user! Follow to view posts.</h3>
+            {% endif %}
+            
+            <div>
+                {% include "users/display_with_donate.html" %}
             </div>
         {% endif %}
 
     {% endif %}
 {% else %}
     {% if user.private %}
-        <h1>Private Profile</h1>  
-        <h1>You're not following this user! Follow to view posts.</h1>
+        <h3 style="text-align: center; margin: 1vh 0 3vh 0">You're not following this user! Follow to view posts.</h3>
     {% else %}
-        <h1>Public Profile</h1>
         <div>
-            <h3>Images</h3>
-            {% for image in user.images %}
-            <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
-            <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
-            {% endfor %}
+            {% include "users/display.html" %}
         </div>
     {% endif %}
 {% endif %}
