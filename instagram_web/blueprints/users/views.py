@@ -109,6 +109,8 @@ def edit(id):
 @users_blueprint.route('/<id>/edit', methods=['POST'])
 def update(id):
     user = User.get_by_id(id)
+    print("TESTING")
+    print(request)
     if request.form['username']:
         user.username = request.form['username']    
     if request.form['name']:
@@ -195,9 +197,9 @@ def private(id):
             return redirect(url_for('users.profile', id=current_user.id))
     
 
-@users_blueprint.route('/<id>/request', methods=["GET"])
+@users_blueprint.route('/<id>/follower_request', methods=["GET"])
 @login_required
-def request(id):
+def follower_request(id):
     if current_user.id != int(id):
         flash("Something went wrong with accessing this URL, redirecting you to another page...", "danger")
         return redirect(url_for('users.profile', id=current_user.id))

@@ -12,7 +12,7 @@
 {% if current_user.is_authenticated %}
     {% if current_user.id == user.id %}
         <div style="display: flex; margin: auto; justify-content: center;">
-            <form action="{{url_for('users.request', id=current_user.id)}}">
+            <form action="{{url_for('users.follower_request', id=current_user.id)}}">
                 <input type="submit" value="Follower Requests" class="btn btn-secondary">
             </form>
             {% if user.private %}
