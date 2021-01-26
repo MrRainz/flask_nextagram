@@ -10,11 +10,13 @@
 {% block content %}
 {% include "info.html" %}
 
-
-<h1>Change Profile Image</h1>
-<form action="{{ url_for('users.upload_image', id=current_user.id) }}" method="POST" enctype="multipart/form-data">
+<div style="width: 30vw; margin: auto; margin-top: 5vh; border: 2px solid gray; padding: 2vh">
+  <h3>Change Profile Image</h3>
+  <form action="{{ url_for('users.upload_image', id=current_user.id) }}" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <input type="file" name="my_file"/>
-    <button type="submit"class="btn btn-primary">Upload</button>
-</form>
+    <button type="submit"class="btn btn-secondary">Upload</button>
+  </form>
+</div>
+
 {% endblock %}

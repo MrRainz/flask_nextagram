@@ -1,4 +1,7 @@
 {% for image in user.images %}
-    <img style="width: 200px; height: 200px" src="{{ image.image_url }}">
-    <p>Donations received: {{image.donations | sum(attribute="amount")}}</p>
+<div class="card col-3" style="justify-content: center; background-color: lightgray; margin: 1vh; align-items: center">
+    <img style="width: 80%; margin: 1vh; border: 1px solid black" src="{{ image.image_url }}">
+    <p style="text-align: center; font-size: 2vh; margin-bottom: 0">Donations:</p>
+    <p style="text-align: center; font-size: 2vh">RM {{image.donations | sum(attribute="amount")}}</p>
+</div>
 {% endfor %}

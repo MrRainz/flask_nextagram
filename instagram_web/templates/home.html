@@ -16,19 +16,19 @@ Homepage
         <div class="card col-3 d-flex align-items-center" style="background-color: lightgray">
           <a href="{{ url_for('users.show', id=following.id) }}">
           {% if following.profile_image_url %}
-          <img class="rounded-circle" style="width: 350px; height: 350px; border: 1px darkgray solid; margin-top: 1vh" src="{{ following.profile_image_url }}">
+          <img class="rounded-circle" style="width: 35vh; height: 35vh; border: 1px darkgray solid; margin-top: 1vh" src="{{ following.profile_image_url }}">
           {% else %}
-          <img class="rounded-circle" style="width: 350px; height: 350px; border: 1px darkgray solid; margin-top: 1vh" src="http://next-curriculum-instagram.s3.amazonaws.com/profile-placeholder.jpg"
+          <img class="rounded-circle" style="width: 35vh; height: 35vh; border: 1px darkgray solid; margin-top: 1vh" src="http://next-curriculum-instagram.s3.amazonaws.com/profile-placeholder.jpg"
             alt="" />
           {% endif %}
           </a>
           <a style="color: black; font-size: 3vh" href="{{ url_for('users.show', id=following.id) }}">{{following.username}}</a>
         </div>
         
-        <div class="col-9 d-flex flex-wrap">
+        <div class="col-9 d-flex flex-wrap" style="justify-content: space-around;">
           {% for image in following.images %}
-          <div class="card" style="justify-content: center; background-color: lightgray; margin: 1vh">
-            <img style="width: 200px; height: 200px; margin: 1vh; border: 1px solid black" src="{{ image.image_url }}">
+          <div class="card col-3" style="justify-content: center; background-color: lightgray; margin: 1vh; align-items: center;">
+            <img style="width: 80%; margin: 1vh; border: 1px solid black" src="{{ image.image_url }}">
             <p style="text-align: center; font-size: 2vh; margin-bottom: 0">Donations:</p>
             <p style="text-align: center; font-size: 2vh">RM {{image.donations | sum(attribute="amount")}}</p>
             <form style="justify-content: center; margin: auto; margin-top: 0; margin-bottom: 0" action="{{url_for('donations.new', image_id=image.id)}}">

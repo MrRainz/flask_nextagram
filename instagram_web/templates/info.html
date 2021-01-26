@@ -1,8 +1,8 @@
-<div class="card col-4 d-flex align-items-center" style="background-color: rgb(248, 248, 248); margin: auto">
+<div class="card col-4 d-flex align-items-center" style="background-color: rgb(248, 248, 248); margin: auto; margin-top: 2vh">
 {% if user.profile_image_url %}
-    <img class="card-img-top rounded-circle" style="width: 30vh; height: 30vh; margin: 2vh" src="{{ user.profile_image_url }}">
+    <img class="card-img-top rounded-circle" style="width: 30vh; height: 30vh; margin: 2vh; border: 1px darkgray solid" src="{{ user.profile_image_url }}">
 {% else %}
-    <img class="card-img-top rounded-circle" style="width: 30vh; height: 30vh; margin: 2vh" src="http://next-curriculum-instagram.s3.amazonaws.com/profile-placeholder.jpg" alt="" />
+    <img class="card-img-top rounded-circle" style="width: 30vh; height: 30vh; margin: 2vh; border: 1px darkgray solid" src="http://next-curriculum-instagram.s3.amazonaws.com/profile-placeholder.jpg" alt="" />
 {% endif %}
 <h3>Username: {{  user.username  }}</h3>
 <h3>Name: {{  user.name  }}</h3>
