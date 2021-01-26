@@ -1,7 +1,7 @@
 {% extends "_layout.html" %}
 
 {% block title %}
-    Error 401
+    Error 400
 {% endblock %}
 
 {% block header %}
@@ -9,8 +9,8 @@
 
 {% block content %}
 <div class="jumbotron" style="position: fixed; top: 35vh; text-align: center; left: 10vh">
-  <h1 class="display-4">Welcome to the page where it displays 401 error (unauthorized access)!</h1>
+  <h1 class="display-4">Welcome to the page where it displays 400 error (unauthorized access)!</h1>
   <h1 class="display-4">This is literally the same thing but fancier. :D</h1>
-  <h1 class="display-4">PS: You're not logged in ;)</h1>
+  <h1 class="display-4">Bad CSRF request D:</h1>
 </div> 
 {% endblock %}
