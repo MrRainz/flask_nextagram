@@ -9,7 +9,7 @@
 
 {% block content %}
 {% include "info.html" %}    
-<div style="width: 30vw; margin: auto; margin-top: 20vh; margin-bottom: 3vh; border: 2px solid gray; padding: 2vh">
+<div style="width: 30vw; margin: auto; margin-top: 5vh; margin-bottom: 3vh; border: 2px solid gray; padding: 2vh">
     <h3 style="text-align: center; margin: 1vh 0 5vh 0">Edit Profile Details</h3>
     <form action="{{ url_for('users.update', id=user.id) }}" method="POST">
         <div class="form-group">

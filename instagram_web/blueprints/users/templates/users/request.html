@@ -13,21 +13,33 @@
 
 {% if current_user.is_authenticated %}
     {% if requests %}
-        {% for request in requests %}
-        <div style="display: flex">
-            <p>{{request.username}} ({{request.id}}) wants to follow you! </p>
-            <form action="{{url_for('follows.approve', user_id=current_user.id, follower_id=request.id)}}" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="submit" value="Approve Request" class="btn btn-secondary">
-            </form>
-            <form action="{{url_for('follows.delete', user_id=current_user.id, follower_id=request.id)}}" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="submit" value="Remove Request" class="btn btn-warning">
-            </form>
+        <div style="width: 54vw; border: solid 1px gray; margin: auto; margin-top: 5vh; padding: 2vw">    
+            <h3 style="text-align: center; margin: 1vh 0 5vh 0">Follower Requests</h3>
+            {% for request in requests %}
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 50vw; margin: auto; border: 1px solid gray; padding: 2vh">
+                    <p style="font-size: 2vh; margin-bottom: 0; padding-left: 1vh"><a style="color: black;" href="{{ url_for('users.show', id=request.id) }}">{{request.username}}</a> wants to follow you! </p>
+                    <div style="display: flex">
+                        <form style="margin: 0.5vh" action="{{url_for('follows.approve', user_id=current_user.id, follower_id=request.id)}}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="submit" value="Approve Request" class="btn btn-secondary">
+                        </form>
+                        <form style="margin: 0.5vh" action="{{url_for('follows.delete', user_id=current_user.id, follower_id=request.id)}}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="submit" value="Remove Request" class="btn btn-warning">
+                        </form>
+                    </div>
+                    
+                </div>    
+            {% endfor %}
         </div>
-        {% endfor %}
     {% else %}
-        <h1>You've no follower requests :(</h1>
+    <div style="width: 54vw; border: solid 1px gray; margin: auto; margin-top: 5vh; padding: 2vw">
+        <h3 style="text-align: center; margin: 1vh 0 5vh 0">Follower Requests</h3>
+        <div class="jumbotron">
+            <h1 class="display-4">You have no follower requests :( </h1>
+        </div>
+    </div>
+        
     {% endif %}
 {% endif %}
 
