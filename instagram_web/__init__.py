@@ -33,6 +33,14 @@ def error_401(e):
 def error_404(e):
     return render_template('404.html'), 404
 
+@app.errorhandler(403)
+def error_403(e):
+    return render_template('403.html'), 403
+
+@app.errorhandler(400)
+def error_400(e):
+    return render_template('400.html'), 400
+
 
 @app.route("/")
 def home():
